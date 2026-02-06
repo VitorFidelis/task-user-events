@@ -1,0 +1,22 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://ep-square-heart-ac9fnz1l-pooler.sa-east-1.aws.neon.tech/userdb?sslmode=require
+    username: neondb_owner
+    password: npg_uiYpCm38TFhk
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 5
+      connection-timeout: 30000
+      max-lifetime: 600000
+      pool-name: HikariCP
+    jpa:
+      hibernate:
+        ddl-auto: update
+      properties:
+        hibernate:
+          format_sql: true
+          show_sql: true
+      database-platform: org.hibernate.dialect.PostgreSQLDialect
+server:
+  port: 8081
