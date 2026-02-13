@@ -227,6 +227,7 @@ components:
           - IN_PROGRESS
           - COMPLETED
           - CANCELED
+
   schemas:
     CreateTaskRequest:
       type: object
