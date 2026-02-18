@@ -3,7 +3,9 @@
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$/config-services/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/discovery-services/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/gateway-service/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ms-task/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ms-task/target/generated-sources/openapi/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ms-user/src/main/java" charset="UTF-8" />
   </component>
 </project>

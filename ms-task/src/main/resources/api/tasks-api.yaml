@@ -274,6 +274,13 @@ components:
         size:
           type: integer
           format: int64
+        sort:
+          type: string
+        status:
+          type: string
+          enum:
+            - ACTIVE
+            - DEACTIVATED
     Task:
       type: object
       properties:

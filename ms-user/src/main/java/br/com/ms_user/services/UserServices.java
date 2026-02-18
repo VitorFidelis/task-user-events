@@ -5,13 +5,9 @@ import br.com.ms_user.exception.UserNotFoundException;
 import br.com.ms_user.mapper.UserMapper;
 import br.com.ms_user.repository.UserRepository;
 import br.com.ms_user.repository.UserSpecification;
-import com.fiap.user_service.user.dto.CreateUserRequestDTO;
-import com.fiap.user_service.user.dto.PaginatedResultDTO;
-import com.fiap.user_service.user.dto.UpdateUserRequestDTO;
-import com.fiap.user_service.user.dto.UserDTO;
+import com.fiap.user_service.user.dto.*;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.java.Log;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -33,7 +29,7 @@ public class UserServices {
                 dto.getEmail(),
                 dto.getPassword()
         );
-        final var createdTask = this.userRepository.save(toCreateUser);
+        final var createdTask = this.userRepository.saveAndFlush(toCreateUser); // força flush imediatamente
         log.info("User created with id: {}", createdTask.getId());
         return UserMapper.toUserDto(createdTask);
     }
@@ -42,7 +38,7 @@ public class UserServices {
         final var userById = this.userRepository.findById(id).orElseThrow(
                 () -> new UserNotFoundException(id));
         userById.updateUser(dto.getUsername(),dto.getEmail());
-        final var updatedUser = this.userRepository.save(userById);
+        final var updatedUser = this.userRepository.saveAndFlush(userById);// força flush imediatamente
         log.info("User updated with id: {}", updatedUser.getId());
         return UserMapper.toUserDto(updatedUser);
     }
@@ -57,15 +53,16 @@ public class UserServices {
 
     @Transactional(readOnly = true)
     public PaginatedResultDTO findAllUsers(
-            final Integer page,
-            final Integer size,
-            final String sort,
-            final String status
+            Integer page,
+            Integer size,
+            String sort,
+            UserStatusDTO status
 
     ) {
-        if (page == null || size == null || sort == null || !sort.contains(",")) {
-            throw new IllegalArgumentException("Invalid paging parameters");
-        }
+        // valores padrão
+        page = (page == null || page < 0) ? 0 : page;
+        size = (size == null || size <= 0) ? 10 : size;
+        sort = (sort == null || !sort.contains(",")) ? "id,asc" : sort;
 
         // separa campo e direção
         final var sortParams = sort.split(",");
@@ -79,7 +76,7 @@ public class UserServices {
         );
 
         // cria specification dinâmica
-        final var specification = UserSpecification.create(status);
+        final var specification = UserSpecification.create(status.name());
 
         final var pageResult = userRepository.findAll(specification, pageable);
 
@@ -97,19 +94,29 @@ public class UserServices {
 
     }
 
-    public void deactivate(final Long id) {
+    public UserDTO deactivate(final Long id) {
         final var toUserById = this.userRepository.findById(id).orElseThrow(
                 () -> new UserNotFoundException(id));
+
         toUserById.deactivate();
-        final var userDeactivated = this.userRepository.save(toUserById);
+
+        final var userDeactivated = this.userRepository.saveAndFlush(toUserById);
+
         log.info("user by id: {} successfully deactivated", userDeactivated.getId());
+
+        return UserMapper.toUserDto(userDeactivated);
     }
 
-    public void reactivate(final Long id) {
+    public UserDTO reactivate(final Long id) {
         final var toUserById = this.userRepository.findById(id).orElseThrow(
                 () -> new UserNotFoundException(id));
+
         toUserById.reactivate();
-        final var userReactivated = this.userRepository.save(toUserById);
+
+        final var userReactivated = this.userRepository.saveAndFlush(toUserById);
+
         log.info("user by id: {} successfully deactivated", userReactivated.getId());
+
+        return UserMapper.toUserDto(userReactivated);
     }
 }

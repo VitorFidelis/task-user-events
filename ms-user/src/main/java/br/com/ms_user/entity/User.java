@@ -21,8 +21,8 @@ import java.time.Instant;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_seq_gen")
-    @SequenceGenerator(name = "user_seq_gen", sequenceName = "user_seq_gen", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "users_seq")
+    @SequenceGenerator(name = "users_seq", sequenceName = "users_seq", allocationSize = 1)
     @EqualsAndHashCode.Include
     private Long id;
 
@@ -50,24 +50,22 @@ public class User {
     @Column(nullable = false, name = "updated_at", updatable = true)
     private Instant updatedAt;
 
-    @Column(nullable = true, name = "activated_At", updatable = true)
+    @Column(nullable = true, name = "activated_at", updatable = true)
     private Instant activatedAt;
 
-    @Column(nullable = true, name = "deactivated_At", updatable = true)
+    @Column(nullable = true, name = "deactivated_at", updatable = true)
     private Instant deactivatedAt;
 
     private User(
             final String username,
             final String email,
             final String password,
-            final Status status,
-            final Instant activatedAt
+            final Status status
     ) {
         this.username = username;
         this.email = email;
         this.password = password;
         this.status = status;
-        this.activatedAt = activatedAt;
     }
 
     public static User newUser(
@@ -75,12 +73,12 @@ public class User {
             final String email,
             final String password
     ) {
-        return new User(username, email, password, Status.ACTIVE, Instant.now());
+        return new User(username, email, password, Status.ACTIVE);
     }
 
     public void deactivate() {
-        if (!this.getStatus().equals(Status.DEACTIAVTED)) {
-            this.setStatus(Status.DEACTIAVTED);
+        if (!this.getStatus().equals(Status.DEACTIVATED)) {
+            this.setStatus(Status.DEACTIVATED);
             this.setDeactivatedAt(Instant.now());
         }else {
             throw new UserIsDeactivatedException(this.getId());

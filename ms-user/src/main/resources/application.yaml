@@ -1,12 +1,17 @@
 spring:
   application:
     name: ms-user
-  cloud:
-    config:
-      import: optional:configserver:http://localhost:8888
+  config:
+    import: optional:configserver:http://localhost:8888
 
 management:
   endpoints:
     web:
       exposure:
         include: health, info
+
+springdoc:
+  api-docs:
+    path: /v1/api-docs
+  swagger-ui:
+    path: /ms-user/docs  # Caminho para acessar a interface do Swagger UI

@@ -1,0 +1,24 @@
+spring:
+  cloud:
+    gateway:
+      server:
+        webflux:
+          discovery:
+            locator:
+              # Significa que o Gateway vai usar o Eureka como Service Discovery.
+              enabled: true
+              # Força o nome do serviço para minúsculo.
+              lower-case-service-id: true
+          routes:
+            - id: ms-user
+              # Load Balancer: Pegue o serviço ms-user no Eureka e balanceie entre as instâncias disponíveis.
+              uri: lb://ms-user
+              # Toda requisição que bater em /api/v1/users/** vai para o serviço ms-user.
+              predicates:
+                - Path=/api/v1/users/**
+            - id: ms-task
+              uri: lb://ms-task
+              predicates:
+                - Path=/api/v1/tasks/**
+server:
+  port: 8080
