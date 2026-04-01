@@ -1,0 +1,26 @@
+body {
+    background: linear-gradient(135deg, #1e3c72, #2a5298);
+    min-height: 100vh;
+}
+.card-custom {
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+}
+.nav-tabs .nav-link {
+    border: none;
+    color: #555;
+    font-weight: 500;
+}
+.nav-tabs .nav-link.active {
+    background-color: #2a5298;
+    color: white;
+    border-radius: 12px;
+}
+.btn-rounded {
+    border-radius: 50px;
+}
+.badge-status {
+    padding: 8px 12px;
+    border-radius: 50px;
+    font-size: 0.8rem;
+}

@@ -1,0 +1,29 @@
+server:
+  port: 8083
+
+notification:
+  email:
+    sender: contact@taskmanager.com
+
+spring:
+  rabbitmq:
+    host: leopard-01.lmq.cloudamqp.com
+    port: 5671
+    username: icfblvju
+    password: aNK_WHhZSxNl336b5UofUOjs_Rp5NfJq
+    virtual-host: icfblvju
+    ssl:
+      enabled: true
+  # Configurações do MailHog
+  mail:
+    host: localhost
+    port: 1025
+    properties:
+      mail:
+        smtp:
+          auth: false
+          starttls:
+            enable: false
+          connectiontimeout: 5000
+          timeout: 3000
+          writetimeout: 5000

@@ -1,3 +1,6 @@
+server:
+  port: 8080
+
 spring:
   cloud:
     gateway:
@@ -20,5 +23,3 @@ spring:
               uri: lb://ms-task
               predicates:
                 - Path=/api/v1/tasks/**
-server:
-  port: 8080
